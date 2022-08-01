@@ -61,7 +61,7 @@ This tool was built with the help of countless stack overflow posts and based on
 
 There's a lot that could be said about this project - but i feel like i've commented the code good enough to at least convey the ideas.
 
-Unfortunately, i currently don't have any time to keep working on this tool but a library independant port to windows would be awesome. Also the mac masquerading solution isn't quite elegant. Oh and the "encryption" of the tunnel could obviously be improved (currently just XOR).
+Unfortunately, i currently don't have any time to keep working on this tool but a library independent port to windows would be awesome. Also the mac masquerading solution isn't quite elegant. Oh and the "encryption" of the tunnel could obviously be improved (currently just XOR).
 
 ## Disclaimer
 
