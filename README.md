@@ -65,4 +65,4 @@ Unfortunately, i currently don't have any time to keep working on this tool but 
 
 ## Disclaimer
 
-This has only been tested in a local virtual environment with Kali <-> Ubuntu <-> AD. Use this tool at your own risk - i can't promise anything. If you encounter any problems however, feel free to create an issue and i might take a look at it.
+This has only been tested in a local virtual environment with Kali <-> Ubuntu <-> AD. Use this tool at your own risk - i can't promise anything. If you encounter any problems however, feel free to create an issue and i might take a look at it. One known issue is that the MAC address in the ARP replies from the target network are set to the NIC of the target network ethernet adapter on the server. `ebtables` allows to match on `--arp-mac-dst` which we should then rewrite to the spoofed mac address of the tap on the client.
