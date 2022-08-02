@@ -103,7 +103,7 @@ int main(int argc, char** argv){
 	struct sockaddr_in tun_addr;
 	socklen_t addr_len = sizeof(tun_addr);
 
-	fprintf(stdout, "[+] Creating tun\n");
+	fprintf(stdout, "[+] Creating tap\n");
 	tap = create_tap(tap_id);
 	fprintf(stdout, "[>] Tap set up: %s\n", tap_id);
 
@@ -335,7 +335,7 @@ int create_tap(char* tap_id) {
 	ifr.ifr_flags = IFF_TAP | IFF_NO_PI;
 
 	if ((err = ioctl(tap_fd, TUNSETIFF, (void*)&ifr)) < 0)
-		die_with("Failed to setup tun (ioctl)", err);
+		die_with("Failed to setup tap (ioctl)", err);
 
 	strcpy(tap_id, ifr.ifr_name);
 	return tap_fd;
