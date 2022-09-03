@@ -1,6 +1,6 @@
 # Layer 2 Pivot
 
-A pivot tool operating on layer 2 of the OSI model that allows one linux machine (the client) to pivot into a remote network via another dual homed linux machine (the server).
+A pivot tool operating on layer 2 of the OSI model, that allows one linux machine (the client) to pivot into a remote network via another dual homed linux machine (the server).
 
 ## Concept
 
@@ -16,7 +16,7 @@ Usage:
 > Both the client and server require `root`.
 ```
 └─# ./l2pivot -h                    
-Usage: ./l2pivot [-c] [-p] [-h] SERVER_IP CIDR_NEW|CIDR_PIVOT
+Usage: ./l2 [-c] [-p] [-h] SERVER_IP CIDR_NEW|CIDR_PIVOT
 
           -h:  view this help message
           -c:  run as client (requires CIDR_NEW)
@@ -31,22 +31,21 @@ Usage: ./l2pivot [-c] [-p] [-h] SERVER_IP CIDR_NEW|CIDR_PIVOT
 Example:
  (Client: 10.0.0.1)      (Server: 10.0.0.2 & 172.16.0.2)      (Target: 172.16.0.1)
 
-         Server# ./l2pivot [-p] 10.0.0.2 172.16.0.2/24
-         Client# ./l2pivot -c 10.0.0.2 172.16.0.3/24
+         Server# ./l2 [-p] 10.0.0.2 172.16.0.2/24
+         Client# ./l2 -c 10.0.0.2 172.16.0.3/24
 
  ==> (Client: 10.0.0.1 & 172.16.0.3)
 
 Notes:
-  About `-p`. In virtual environments where the hypervisor disabled promiscuous mode for the server NIC
-  the server will not be able to process responses directed towards the client. In this case (and any
-  other scenario where the NIC cannot be placed in promiscuous mode) use `-p` to masque all MAC addresses.
-  Keep in mind that the target network will no longer be able to access services on this server anymore!
-
-  Be advised, proxying ARP may confuse some tools. Use `nmap` with `--disable-arp-ping`.
+  If the server is unable to capture traffic that's meant for the client (i.e. no promiscuous
+  mode available), you can use `-p` to masquerade/forward all traffic.
+  
+  Careful, everything coming from the target network will be forwarded to the client.
+  This will render the server unreachable from the target network.
 ```
 
 # Example 
-In this example the promiscuous mode for the target interface on this virtual server was enabled to allow reading traffic of all VMs on the network. An option for virtual networks with promiscuous mode disabled exists. (Read the help info.)
+In this example the promiscuous mode for the target interface of the virtual server was disabled to mirror a real switched network.
 
 ![Example](example.png)
 
@@ -61,8 +60,8 @@ This tool was built with the help of countless stack overflow posts and based on
 
 There's a lot that could be said about this project - but i feel like i've commented the code good enough to at least convey the ideas.
 
-Unfortunately, i currently don't have any time to keep working on this tool but a library independent port to windows would be awesome. Also the mac masquerading solution isn't quite elegant. Oh and the "encryption" of the tunnel could obviously be improved (currently just XOR).
+Unfortunately, i don't have time to keep working on this tool but a library independent port to windows would be awesome. Oh and the "encryption" of the tunnel could obviously be improved (currently just XOR).
 
 ## Disclaimer
 
-This has only been tested in a local virtual environment with Kali <-> Ubuntu <-> AD. Use this tool at your own risk - i can't promise anything. If you encounter any problems however, feel free to create an issue and i might take a look at it. One known issue is that the MAC address in the ARP replies from the target network are set to the NIC of the target network ethernet adapter on the server (causing `nmap`s arp-ping to fail). `ebtables` allows to match on `--arp-mac-dst` which we should then rewrite to the spoofed mac address of the tap on the client.
+This has only been tested in a local virtual environment with Kali <-> Ubuntu <-> AD so far. Use this tool at your own risk. If you encounter any problems, however, feel free to open an issue.
