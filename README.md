@@ -16,7 +16,7 @@ Usage:
 > Both the client and server require `root`.
 ```
 └─# ./l2pivot -h                    
-Usage: ./l2 [-c] [-p] [-h] SERVER_IP CIDR_NEW|CIDR_PIVOT
+Usage: ./l2pivot [-c] [-p] [-h] SERVER_IP CIDR_NEW|CIDR_PIVOT
 
           -h:  view this help message
           -c:  run as client (requires CIDR_NEW)
@@ -31,8 +31,8 @@ Usage: ./l2 [-c] [-p] [-h] SERVER_IP CIDR_NEW|CIDR_PIVOT
 Example:
  (Client: 10.0.0.1)      (Server: 10.0.0.2 & 172.16.0.2)      (Target: 172.16.0.1)
 
-         Server# ./l2 [-p] 10.0.0.2 172.16.0.2/24
-         Client# ./l2 -c 10.0.0.2 172.16.0.3/24
+         Server# ./l2pivot [-p] 10.0.0.2 172.16.0.2/24
+         Client# ./l2pivot -c 10.0.0.2 172.16.0.3/24
 
  ==> (Client: 10.0.0.1 & 172.16.0.3)
 
